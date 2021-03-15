@@ -1,0 +1,84 @@
+
+*
+  body {
+  background-color: #eae6cd;
+  font-family: "Lucida Console", "Courier New", monospace
+  font-size: 90%;
+  }
+
+  h1 {
+    color: #4d4d4c;
+    background-color: #e1dbb7;
+    font-family: "Lucida Console", "Courier New", monospace;
+    font-size: 150%;
+    padding: 10px;
+  }
+
+  ul {
+          background-color: #e0dbb8;
+    }
+
+  div {
+    color: coal;
+    font-family: "Lucida Console", "Courier New", monospace;
+    font-size: 80%;
+    padding: 3px;
+    }
+
+    div.latest {
+        color: coal;
+        font-family: "Lucida Console", "Courier New", monospace;
+        font-size: 90%;
+        padding: 5px;
+        }
+
+/* unvisited link */
+  a:link {
+    color: black;
+    font-family: "Lucida Console", "Courier New", monospace
+    font-size: 90%;
+  }
+
+  /* visited link */
+    a:visited {
+    color: black;
+    font-family: "Lucida Console", "Courier New", monospace
+    font-size: 90%;
+  }
+
+  input {
+    font-family: "Lucida Console", "Courier New", monospace;
+    font-size: 80%;
+    padding: 3px;
+    }
+
+  input.button {
+    font-family: "Lucida Console", "Courier New", monospace;
+    font-size: 80%;
+    padding: 3px;
+    margin-left: 3px;
+    }
+
+  label {
+    font-family: "Lucida Console", "Courier New", monospace;
+        font-size: 85%;
+    display: inline-block;
+    width: 200px;
+    margin: 5px;
+    text-align: left;
+  }
+
+  input[type=text], input[type=password], select {
+      display: inline-block;
+      width: 200px;
+  }
+  input[type=radio] {
+      margin-left: 45px;
+  }
+  input[type=checkbox] {
+      margin-right: 190px;
+  }
+  button {
+      padding: 5px;
+      margin: 10px;
+  }
