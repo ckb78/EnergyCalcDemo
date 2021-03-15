@@ -21,7 +21,7 @@ public class EnergyCalcWebController {
     private static Boolean validInput = true;
 
     @GetMapping("/")
-    public String GetInput(Model model, @ModelAttribute("input") FormInput input) {
+    public String GetInput(Model model, @ModelAttribute("input") DataInput input) {
         log.info("MuzzleEnergyController - GET: \"/\"");
         input.setUnits(Units.IMPERIAL);
         model.addAttribute("validInput", validInput);
@@ -30,9 +30,9 @@ public class EnergyCalcWebController {
     }
 
     @PostMapping("/")
-    public String getResult(Model model, @ModelAttribute("input") FormInput input) {
+    public String getResult(Model model, @ModelAttribute("input") DataInput input) {
         log.info("MuzzleEnergyController - POST: \"/\", {}", input.toString());
-        validInput = calcService.validateInputData(input);
+        validInput = calcService.validateInput(input);
         if (validInput) {
             calcService.createAndSaveResult(input);
         }
@@ -42,7 +42,7 @@ public class EnergyCalcWebController {
     }
 
     @GetMapping("/no")
-    public String GetInputNo(Model model, @ModelAttribute("input") FormInput input) {
+    public String GetInputNo(Model model, @ModelAttribute("input") DataInput input) {
         log.info("MuzzleEnergyController - GET: \"/no\"");
         input.setUnits(Units.METRIC);
         model.addAttribute("validInput", validInput);
@@ -51,9 +51,9 @@ public class EnergyCalcWebController {
     }
 
     @PostMapping("/no")
-    public String getResultsNo(Model model, @ModelAttribute("input") FormInput input) {
+    public String getResultsNo(Model model, @ModelAttribute("input") DataInput input) {
         log.info("MuzzleEnergyController - POST: \"/no\", {}", input.toString());
-        validInput = calcService.validateInputData(input);
+        validInput = calcService.validateInput(input);
         if (validInput) {
             calcService.createAndSaveResult(input);
         }

@@ -6,7 +6,7 @@ import net.ckb78.EnergyCalcDemo.service.Units;
 
 @Data
 @Accessors(chain = true)
-public class FormInput {
+public class DataInput {
 
     private String producer;
     private String caliber;

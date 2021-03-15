@@ -3,7 +3,7 @@ package net.ckb78.EnergyCalcDemo.service;
 
 import lombok.extern.slf4j.Slf4j;
 import net.ckb78.EnergyCalcDemo.controller.EnergyDto;
-import net.ckb78.EnergyCalcDemo.controller.FormInput;
+import net.ckb78.EnergyCalcDemo.controller.DataInput;
 import net.ckb78.EnergyCalcDemo.repository.EnergyDataEntity;
 import net.ckb78.EnergyCalcDemo.repository.EnergyDataRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,7 @@ public class EnergyCalcService {
     @Autowired
     EnergyDataRepository energyRepository;
 
-    public void createAndSaveResult(FormInput input) {
+    public EnergyDto createAndSaveResult(DataInput input) {
         double bulletWeight, muzzleVelocity;
 
         try {
@@ -57,6 +57,8 @@ public class EnergyCalcService {
         log.info("MuzzleEnergyService - Completed muzzle energy calculation:\n {} ", result.toString());
         addResult(result);
         saveResult(result);
+
+        return entityToDto(energyRepository.getOne(result.getId()));
     }
 
     private void setId(EnergyCalcResult result) {
@@ -106,7 +108,7 @@ public class EnergyCalcService {
                 : roundDouble(m.getEnergy() * FOOT_POUNDS_PR_JOULE);
     }
 
-    public boolean validateInputData(FormInput input) {
+    public boolean validateInput(DataInput input) {
         checkAndCorrectDecimalDelimiter(input);
         try {
             double m = Double.parseDouble(input.getMass());
@@ -118,7 +120,7 @@ public class EnergyCalcService {
         return false;
     }
 
-    private void checkAndCorrectDecimalDelimiter(FormInput input) {
+    private void checkAndCorrectDecimalDelimiter(DataInput input) {
         if (input.getVelocity().contains(",") || input.getMass().contains(",")) {
             input.setVelocity(fixDecimalDelimiter(input.getVelocity()));
             input.setMass(fixDecimalDelimiter(input.getMass()));
@@ -172,21 +174,21 @@ public class EnergyCalcService {
 
     public List<EnergyDto> populateWithTestData() {
 
-        createAndSaveResult(new FormInput()
+        createAndSaveResult(new DataInput()
                 .setProducer("CCI")
                 .setUnits(Units.IMPERIAL)
                 .setVelocity("1000")
                 .setMass("40")
                 .setCaliber(".22 LR Standard"));
 
-        createAndSaveResult(new FormInput()
+        createAndSaveResult(new DataInput()
                 .setProducer("CCI")
                 .setUnits(Units.IMPERIAL)
                 .setVelocity("1630")
                 .setMass("32")
                 .setCaliber(".22 LR Stinger"));
 
-        createAndSaveResult(new FormInput()
+        createAndSaveResult(new DataInput()
                 .setProducer("Hornady")
                 .setUnits(Units.IMPERIAL)
                 .setVelocity("2400")

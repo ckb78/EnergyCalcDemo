@@ -29,9 +29,9 @@ public class EnergyCalcResult {
                 + "Units: " + units + ", "
                 + "Producer: " + producer + ", "
                 + "Caliber: " + caliber + ", "
-                + "Velocity: " + velocity + (units == Units.IMPERIAL ? " feet/sec" : "meters/sec")
-                + "Mass: " + mass + (units == Units.IMPERIAL ? " grains" : "grams")
-                + "Energy: " + energy + (units == Units.IMPERIAL ? " foot/pounds" : " joule")
+                + "Velocity: " + velocity + (units == Units.IMPERIAL ? " feet/sec" : "meters/sec") + ", "
+                + "Mass: " + mass + (units == Units.IMPERIAL ? " grains" : "grams") + ", "
+                + "Energy: " + energy + (units == Units.IMPERIAL ? " foot/pounds" : " joule") + ", "
                 + "Entered: " + humanReadableTimeStamp + ".";
     }
 }

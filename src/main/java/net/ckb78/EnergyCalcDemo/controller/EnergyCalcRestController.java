@@ -3,6 +3,7 @@ package net.ckb78.EnergyCalcDemo.controller;
 import lombok.extern.slf4j.Slf4j;
 import net.ckb78.EnergyCalcDemo.service.EnergyCalcService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,5 +33,13 @@ public class EnergyCalcRestController {
     @GetMapping("/populate")
     public List<EnergyDto> populateWithTestData() {
         return calcService.populateWithTestData();
+    }
+
+    @PostMapping(path = "/inputdata", consumes = "application/json", produces = "application/json")
+    public EnergyDto addData(@RequestBody DataInput input) {
+        if (calcService.validateInput(input)) {
+            return calcService.createAndSaveResult(input);
+        }
+        return null;
     }
 }
