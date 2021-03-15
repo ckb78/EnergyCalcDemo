@@ -8,6 +8,7 @@ import net.ckb78.EnergyCalcDemo.service.Units;
 @Accessors(chain = true)
 public class FormInput {
 
+    private String producer;
     private String caliber;
     private Units units;
     private String mass;

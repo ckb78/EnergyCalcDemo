@@ -1,13 +1,19 @@
 package net.ckb78.EnergyCalcDemo.controller;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
+import lombok.experimental.Accessors;
 import net.ckb78.EnergyCalcDemo.service.Units;
 
 import java.time.LocalDateTime;
 
+@Data
+@Accessors(chain = true)
 public class EnergyDto {
     @JsonProperty("id")
-    private int calculationId;
+    private Long calculationId;
+    @JsonProperty("producer")
+    private String producer;
     @JsonProperty("units")
     private Units units;
     @JsonProperty("caliber")
@@ -18,5 +24,7 @@ public class EnergyDto {
     private double velocity;
     @JsonProperty("energy")
     private double energy;
+    @JsonProperty("calculated")
     private LocalDateTime calculatedTimeStamp;
+
 }

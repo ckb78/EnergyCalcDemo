@@ -3,13 +3,13 @@
 <head>
     <link rel="stylesheet" type="text/css" href="MEStyle.css">
     <meta charset="UTF-8">
-    <title>Utgangsenergi-kalkulator-demo</title>
+    <title>Utgangsenergi-kalkulator</title>
 </head>
 
 <body>
-<div align="RIGHT">(c)2021, Christian Bjørnsrud &nbsp&nbsp&nbsp&nbsp&nbsp <b>Norsk</b> | <a href="/en">English</a></div>
-<h1> Utgangssenergi-kalkulator-demo</h1>
-<form action="#" th:action="@{/}" method="post" th:object="${input}">
+<div align="RIGHT">CKB78/2021 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp <b>Norsk</b> | <a href="/">English</a></div>
+<h1> Enkel utgangssenergi-kalkulator</h1>
+<form action="#" th:action="@{/no}" method="post" th:object="${input}">
 
     <input type="radio" th:field="*{units}" value="METRIC"/>Bruk metriske enheter <i>(meter pr. sekund / gram)</i>
     <input type="radio" th:field="*{units}" value="IMPERIAL"/>Bruk amerikanske enheter <i>(fot pr. sekund /
@@ -21,30 +21,35 @@
 
     <label>Masse:</label>
     <input type="text" th:field="*{mass}"/>
-
     <br/>
 
-    <label>Kaliberbetegnelse:</label>
+    <label>Produsent:</label>
+    <input type="text" th:field="*{producer}"/>
+    <br/>
+
+    <label>Patron:</label>
     <input type="text" th:field="*{caliber}"/><br/><br/>
     <input type="submit" class="button" value="KALKULER!"/>
+    <span th:unless="${validInput}"><b>Ugyldig data!</b></span>
 </form>
 <br>
 
 <div th:unless="${#lists.isEmpty(results)}" class="latest" th:text="'Siste utregninger:'"></div>
 <ul th:each="result: ${results}">
     <b>
-        <div th:text="${result.humanReadableTimeStamp} "></div>
+        <div><b><span th:text="${result.humanReadableTimeStamp}"></span></b><span th:if="${resultStat.first && resultStat.size > 1}"> ➕</span></div>
     </b>
     <br>
-    <div th:text="${result.units == T(net.ckb78.MuzzleEnergy.controller.Units).IMPERIAL ? ' Amerikanske' : ' Metriske'} + ' enheter ble brukt i denne utregningen.'"></div>
+    <div th:text="${result.units == T(net.ckb78.EnergyCalcDemo.service.Units).IMPERIAL ? ' Amerikanske' : ' Metriske'} + ' enheter ble brukt i denne utregningen.'"></div>
     <br>
-    <div th:text="'Kaliberbetegnelse......:  ' + ${result.caliber}"></div>
-    </i>
-    <div th:text="'Hastighet .............:  ' + ${result.velocity} + ' ' + ${result.units == T(net.ckb78.MuzzleEnergy.controller.Units).IMPERIAL ? ' fot pr. sekund.' : ' meter i sekundet.'}"></div>
-    <div th:text="'Masse .................:  ' + ${result.mass} + ' ' + ${result.units == T(net.ckb78.MuzzleEnergy.controller.Units).IMPERIAL ? ' grain.' : ' gram.'} "></div>
+    <div th:text="'Kalkulerings id........:  ' + ${result.id}"></div>
+    <div th:text="'Produsent..............:  ' + ${result.producer}"></div>
+    <div th:text="'Patron.................:  ' + ${result.caliber}"></div>
     <br>
-    <div th:text="'Munningsenergi.........:  ' + ${result.energy} + ' ' + ${result.units == T(net.ckb78.MuzzleEnergy.controller.Units).IMPERIAL ? ' pund pr. kvadratfot (ft/lbs).' : ' joule.'}"></div>
-    <div th:text="'Munningsenergi.........:  ' + ${result.altEnergy} + ' ' + ${result.units == T(net.ckb78.MuzzleEnergy.controller.Units).IMPERIAL ? ' joule.' : ' pund pr. kvadratfot.'}"></div>
+    <div th:text="'Hastighet .............:  ' + ${result.velocity} + ' ' + ${result.units == T(net.ckb78.EnergyCalcDemo.service.Units).IMPERIAL ? ' fot pr. sekund.' : ' meter i sekundet.'}"></div>
+    <div th:text="'Masse .................:  ' + ${result.mass} + ' ' + ${result.units == T(net.ckb78.EnergyCalcDemo.service.Units).IMPERIAL ? ' grain.' : ' gram.'} "></div>
+    <div th:text="'Munningsenergi.........:  ' + ${result.energy} + ' ' + ${result.units == T(net.ckb78.EnergyCalcDemo.service.Units).IMPERIAL ? ' pund pr. kvadratfot (ft/lbs).' : ' joule.'}"></div>
+    <div th:text="'.......................:  ' + ${result.altEnergy} + ' ' + ${result.units == T(net.ckb78.EnergyCalcDemo.service.Units).IMPERIAL ? ' joule.' : ' pund pr. kvadratfot.'}"></div>
 
     <br>
 

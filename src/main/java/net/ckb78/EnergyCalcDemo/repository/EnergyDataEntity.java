@@ -1,5 +1,6 @@
 package net.ckb78.EnergyCalcDemo.repository;
 
+
 import lombok.Data;
 import lombok.experimental.Accessors;
 import net.ckb78.EnergyCalcDemo.service.Units;
@@ -13,11 +14,11 @@ import java.time.LocalDateTime;
 @Data
 @Accessors(chain = true)
 @Entity
-public class EnergyEntity {
+public class EnergyDataEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private String producer;
     private Units units;
     private String caliber;
     private double mass;

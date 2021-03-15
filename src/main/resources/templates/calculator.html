@@ -7,9 +7,9 @@
 </head>
 
 <body>
-<div align="RIGHT">(c)2021, Christian Bjørnsrud &nbsp&nbsp&nbsp&nbsp&nbsp <a href="/">Norsk</a> | <b>English</b></div>
+<div align="RIGHT">CKB78/2021 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp <a href="/no">Norsk</a> | <b>English</b></div>
 <h1> Muzzle energy calculator demo</h1>
-<form action="#" th:action="@{/en}" method="post" th:object="${input}">
+<form action="#" th:action="@{/}" method="post" th:object="${input}">
     <input type="radio" class="radio" th:field="*{units}" value="IMPERIAL"/>Use imperial units <i>(feet pr. second /
     grains)</i>
     <input type="radio" class="radio" th:field="*{units}" value="METRIC"/>Use metric units <i>(meters pr. second /
@@ -21,30 +21,34 @@
 
     <label>Mass:</label>
     <input type="text" th:field="*{mass}"/>
-
     <br/>
 
-    <label>Caliber name:</label>
+    <label>Company:</label>
+    <input type="text" th:field="*{producer}"/>
+    <br/>
+
+    <label>Round:</label>
     <input type="text" th:field="*{caliber}"/><br/><br/>
     <input type="submit" class="button" value="CALCULATE!"/>
+    <span th:unless="${validInput}"><b>Invalid input data!</b></span>
 </form>
 <br>
 
 <div th:unless="${#lists.isEmpty(results)}" class="latest" th:text="'Latest calculations:'"></div>
-<ul th:each="result: ${results}">
-    <b>
-        <div th:text="${result.humanReadableTimeStamp}"></div>
-    </b>
+<ul th:each="result, resultStat : ${results}">
+
+    <div><b><span th:text="${result.humanReadableTimeStamp}"></span></b><span th:if="${resultStat.first && resultStat.size > 1}"> ➕</span></div>
     <br>
-    <div th:text="${result.units == T(net.ckb78.MuzzleEnergy.controller.Units).IMPERIAL ? ' Imperial' : ' Metric'} + ' units were used in this calculation.'"></div>
+    <div th:text="${result.units == T(net.ckb78.EnergyCalcDemo.service.Units).IMPERIAL ? ' Imperial' : ' Metric'} + ' units were used in this calculation.'"></div>
     <br>
-    <div th:text="'Caliber................:  ' + ${result.caliber}"></div>
-    </i>
-    <div th:text="'Velocity ..............:  ' + ${result.velocity} + ' ' + ${result.units == T(net.ckb78.MuzzleEnergy.controller.Units).IMPERIAL ? ' feet/sec.' : ' meter/sec.'}"></div>
-    <div th:text="'Mass ..................:  ' + ${result.mass} + ' ' + ${result.units == T(net.ckb78.MuzzleEnergy.controller.Units).IMPERIAL ? ' grains.' : ' grams.'} "></div>
+    <div th:text="'Calculation Id.........:  ' + ${result.id}"></div>
+    <div th:text="'Company................:  ' + ${result.producer}"></div>
+    <div th:text="'Round..................:  ' + ${result.caliber}"></div>
     <br>
-    <div th:text="'Muzzle energy..........:  ' + ${result.energy} + ' ' + ${result.units == T(net.ckb78.MuzzleEnergy.controller.Units).IMPERIAL ? ' foot/pounds.' : ' joule.'}"></div>
-    <div th:text="'Muzzle energy..........:  ' + ${result.altEnergy} + ' ' + ${result.units == T(net.ckb78.MuzzleEnergy.controller.Units).IMPERIAL ? ' joule' : ' foot/pounds.'}"></div>
+    <div th:text="'Velocity ..............:  ' + ${result.velocity} + ' ' + ${result.units == T(net.ckb78.EnergyCalcDemo.service.Units).IMPERIAL ? ' feet/sec.' : ' meter/sec.'}"></div>
+    <div th:text="'Mass ..................:  ' + ${result.mass} + ' ' + ${result.units == T(net.ckb78.EnergyCalcDemo.service.Units).IMPERIAL ? ' grains.' : ' grams.'} "></div>
+    <div th:text="'Muzzle energy..........:  ' + ${result.energy} + ' ' + ${result.units == T(net.ckb78.EnergyCalcDemo.service.Units).IMPERIAL ? ' foot/pounds.' : ' joule.'}"></div>
+    <div th:text="'.......................:  ' + ${result.altEnergy} + ' ' + ${result.units == T(net.ckb78.EnergyCalcDemo.service.Units).IMPERIAL ? ' joule' : ' foot/pounds.'}"></div>
 
     <br>
 </ul>
