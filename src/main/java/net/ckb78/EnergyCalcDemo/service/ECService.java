@@ -148,7 +148,7 @@ public class ECService {
         return entityListToDtoList(energyRepository.findAll());
     }
 
-    public ECDto getEnergyDataById(Long id) {
+    public ECDto getDataById(Long id) {
         return entityToDto(energyRepository.getOne(id));
     }
 
@@ -178,5 +178,9 @@ public class ECService {
 
     public List<ECDto> addTestData() {
         return dataProviderService.populateWithTestData();
+    }
+
+    public void deleteDataById(Long id) {
+        energyRepository.deleteById(id);
     }
 }

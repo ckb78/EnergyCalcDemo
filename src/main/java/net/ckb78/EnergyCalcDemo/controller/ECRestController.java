@@ -16,18 +16,21 @@ public class ECRestController {
 
     @GetMapping("/getdata")
     public List<ECDto> getAllData() {
+        checkDataAvailability();
         log.info("* GET /getdata");
         return calcService.getAllEnergyData();
     }
 
     @GetMapping("/getbyid/{id}")
     public ECDto getSingleEnergyData(@PathVariable Long id) {
+        checkDataAvailability();
         log.info("* GET /getbyid/" + id);
-        return calcService.getEnergyDataById(id);
+        return calcService.getDataById(id);
     }
 
     @GetMapping("/getbycompany/{company}")
     public List<ECDto> getSingleEnergyData(@PathVariable String company) {
+        checkDataAvailability();
         log.info("* GET /getbycompany/" + company);
         return calcService.getEnergyDataByCompany(company.toUpperCase());
     }
@@ -35,15 +38,25 @@ public class ECRestController {
     @PostMapping(path = "/inputdata", consumes = "application/json", produces = "application/json")
     public ECDto addData(@RequestBody DataInput input) {
         log.info("* POST /inputdata " + "\n " + input.toString());
-        if (calcService.validateInput(input)) {
-            return calcService.createAndSaveResult(input);
-        }
-        return null;
+        checkDataAvailability();
+        return calcService.createAndSaveResult(input);
+    }
+
+    @DeleteMapping("/deletebyid/{id}")
+    public void deleteDataById(@PathVariable Long id) {
+        checkDataAvailability();
+        log.info("* DELETE /deletebyid/" + id);
+        calcService.deleteDataById(id);
     }
 
     @GetMapping("/populate")
     public List<ECDto> populateWithTestData() {
         log.info("* GET /populate ");
         return calcService.addTestData();
+    }
+
+    private void checkDataAvailability() {
+        if (calcService.getAllEnergyData().isEmpty())
+            populateWithTestData();
     }
 }
