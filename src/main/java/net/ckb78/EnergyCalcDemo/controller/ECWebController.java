@@ -2,7 +2,7 @@ package net.ckb78.EnergyCalcDemo.controller;
 
 
 import lombok.extern.slf4j.Slf4j;
-import net.ckb78.EnergyCalcDemo.service.EnergyCalcService;
+import net.ckb78.EnergyCalcDemo.service.ECService;
 import net.ckb78.EnergyCalcDemo.service.Units;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @Slf4j
 @Controller
-public class EnergyCalcWebController {
+public class ECWebController {
 
     @Autowired
-    private EnergyCalcService calcService;
+    private ECService calcService;
 
     private static Boolean validInput = true;
 
@@ -24,6 +24,7 @@ public class EnergyCalcWebController {
     public String GetInput(Model model, @ModelAttribute("input") DataInput input) {
         log.info("MuzzleEnergyController - GET: \"/\"");
         input.setUnits(Units.IMPERIAL);
+        checkAndPopulate();
         model.addAttribute("validInput", validInput);
         model.addAttribute("results", calcService.getLatestFive());
         return "calculator";
@@ -45,6 +46,7 @@ public class EnergyCalcWebController {
     public String GetInputNo(Model model, @ModelAttribute("input") DataInput input) {
         log.info("MuzzleEnergyController - GET: \"/no\"");
         input.setUnits(Units.METRIC);
+        checkAndPopulate();
         model.addAttribute("validInput", validInput);
         model.addAttribute("results", calcService.getLatestFive());
         return "kalkulator";
@@ -60,6 +62,12 @@ public class EnergyCalcWebController {
         model.addAttribute("validInput", validInput);
         model.addAttribute("results", calcService.getLatestFive());
         return "kalkulator";
+    }
+
+    private void checkAndPopulate(){
+        if (calcService.getLatestFive().isEmpty()) {
+            calcService.addTestData();
+        }
     }
 
 }

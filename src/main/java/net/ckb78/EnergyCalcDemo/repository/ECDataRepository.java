@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface EnergyDataRepository extends JpaRepository<EnergyDataEntity, Long> {
+public interface ECDataRepository extends JpaRepository<ECDataEntity, Long> {
 
-    List<EnergyDataEntity> findAllByProducer(String producer);
+    List<ECDataEntity> findAllByProducer(String producer);
 }

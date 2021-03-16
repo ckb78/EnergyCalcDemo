@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Data
 @Accessors(chain = true)
 @Entity
-public class EnergyDataEntity {
+public class ECDataEntity {
 
     @Id
     private Long id;

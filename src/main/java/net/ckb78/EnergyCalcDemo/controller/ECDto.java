@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 @Data
 @Accessors(chain = true)
-public class EnergyDto {
+public class ECDto {
     @JsonProperty("id")
     private Long calculationId;
     @JsonProperty("producer")

@@ -2,10 +2,10 @@ package net.ckb78.EnergyCalcDemo.service;
 
 
 import lombok.extern.slf4j.Slf4j;
-import net.ckb78.EnergyCalcDemo.controller.EnergyDto;
+import net.ckb78.EnergyCalcDemo.controller.ECDto;
 import net.ckb78.EnergyCalcDemo.controller.DataInput;
-import net.ckb78.EnergyCalcDemo.repository.EnergyDataEntity;
-import net.ckb78.EnergyCalcDemo.repository.EnergyDataRepository;
+import net.ckb78.EnergyCalcDemo.repository.ECDataEntity;
+import net.ckb78.EnergyCalcDemo.repository.ECDataRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +17,7 @@ import java.util.List;
 
 @Slf4j
 @Service
-public class EnergyCalcService {
+public class ECService {
 
     private final static int IMPERIAL_DIMENSIONAL_CONSTANT = 450240;
     private final static int METRIC_DIMENSIONAL_CONSTANT = 1000;
@@ -25,14 +25,17 @@ public class EnergyCalcService {
     private final static double FOOT_POUNDS_PR_JOULE = 0.737562149;
 
     private static Long calcCounter = 0L;
-    private static final List<EnergyCalcResult> results = new ArrayList<>();
+    private static final List<ECResult> results = new ArrayList<>();
 
     DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy, HH:mm:ss");
 
     @Autowired
-    EnergyDataRepository energyRepository;
+    ECDataRepository energyRepository;
 
-    public EnergyDto createAndSaveResult(DataInput input) {
+    @Autowired
+    TestDataProviderService dataProviderService;
+
+    public ECDto createAndSaveResult(DataInput input) {
         double bulletWeight, muzzleVelocity;
 
         try {
@@ -43,7 +46,7 @@ public class EnergyCalcService {
             muzzleVelocity = 0;
         }
 
-        EnergyCalcResult result = new EnergyCalcResult()
+        ECResult result = new ECResult()
                 .setProducer(input.getProducer())
                 .setUnits(input.getUnits())
                 .setMass(bulletWeight)
@@ -61,24 +64,24 @@ public class EnergyCalcService {
         return entityToDto(energyRepository.getOne(result.getId()));
     }
 
-    private void setId(EnergyCalcResult result) {
+    private void setId(ECResult result) {
         calcCounter++;
         result.setId(calcCounter + 100);
     }
 
-    public List<EnergyCalcResult> getLatestFive() {
-        List<EnergyCalcResult> clonedResults = new ArrayList<>(results);
+    public List<ECResult> getLatestFive() {
+        List<ECResult> clonedResults = new ArrayList<>(results);
         Collections.reverse(clonedResults);
         return (clonedResults.size() < 5 ? clonedResults : clonedResults.subList(0, 5));
     }
 
-    private void addResult(EnergyCalcResult result) {
+    private void addResult(ECResult result) {
         results.add(result);
     }
 
-    private void saveResult(EnergyCalcResult result) {
+    private void saveResult(ECResult result) {
         if (result.getMass() != 0 && result.getVelocity() != 0){
-            energyRepository.save(new EnergyDataEntity()
+            energyRepository.save(new ECDataEntity()
                     .setId(result.getId())
                     .setUnits(result.getUnits())
                     .setProducer(result.getProducer().toUpperCase())
@@ -90,20 +93,20 @@ public class EnergyCalcService {
         }
     }
 
-    private void calculateAndSetEnergies(EnergyCalcResult m) {
+    private void calculateAndSetEnergies(ECResult m) {
         m.setEnergy((m.getUnits() == Units.IMPERIAL) ? getEnergyInFtLbs(m) : getEnergyInJoule(m));
         m.setAltEnergy(ConvertToAltEnergy(m));
     }
 
-    private double getEnergyInFtLbs(EnergyCalcResult m) {
+    private double getEnergyInFtLbs(ECResult m) {
         return roundDouble(m.getVelocity() * m.getVelocity() * m.getMass() / IMPERIAL_DIMENSIONAL_CONSTANT);
     }
 
-    private double getEnergyInJoule(EnergyCalcResult m) {
+    private double getEnergyInJoule(ECResult m) {
         return roundDouble((0.5 * m.getMass() * (m.getVelocity() * m.getVelocity())) / METRIC_DIMENSIONAL_CONSTANT);
     }
 
-    private double ConvertToAltEnergy(EnergyCalcResult m) {
+    private double ConvertToAltEnergy(ECResult m) {
         return (m.getUnits() == Units.IMPERIAL) ? roundDouble(m.getEnergy() * JOULES_PR_FOOT_POUND)
                 : roundDouble(m.getEnergy() * FOOT_POUNDS_PR_JOULE);
     }
@@ -141,19 +144,19 @@ public class EnergyCalcService {
         return Math.round(value * 100.00) / 100.00;
     }
 
-    public List<EnergyDto> getAllEnergyData() {
+    public List<ECDto> getAllEnergyData() {
         return entityListToDtoList(energyRepository.findAll());
     }
 
-    public EnergyDto getEnergyDataById(Long id) {
+    public ECDto getEnergyDataById(Long id) {
         return entityToDto(energyRepository.getOne(id));
     }
-    public List<EnergyDto> getEnergyDataByCompany(String producer) {
+    public List<ECDto> getEnergyDataByCompany(String producer) {
         return entityListToDtoList(energyRepository.findAllByProducer(producer));
     }
 
-    private EnergyDto entityToDto(EnergyDataEntity entity) {
-        return new EnergyDto()
+    private ECDto entityToDto(ECDataEntity entity) {
+        return new ECDto()
                 .setCalculationId(entity.getId())
                 .setProducer(entity.getProducer())
                 .setUnits(entity.getUnits())
@@ -164,37 +167,15 @@ public class EnergyCalcService {
                 .setCalculatedTimeStamp(entity.getCalculatedTimeStamp());
     }
 
-    private List<EnergyDto> entityListToDtoList(List<EnergyDataEntity> entityList) {
-        List<EnergyDto> energyDtoList = new ArrayList<>();
-        for (EnergyDataEntity entity : entityList) {
+    public List<ECDto> entityListToDtoList(List<ECDataEntity> entityList) {
+        List<ECDto> energyDtoList = new ArrayList<>();
+        for (ECDataEntity entity : entityList) {
             energyDtoList.add(entityToDto(entity));
         }
         return energyDtoList;
     }
 
-    public List<EnergyDto> populateWithTestData() {
-
-        createAndSaveResult(new DataInput()
-                .setProducer("CCI")
-                .setUnits(Units.IMPERIAL)
-                .setVelocity("1000")
-                .setMass("40")
-                .setCaliber(".22 LR Standard"));
-
-        createAndSaveResult(new DataInput()
-                .setProducer("CCI")
-                .setUnits(Units.IMPERIAL)
-                .setVelocity("1630")
-                .setMass("32")
-                .setCaliber(".22 LR Stinger"));
-
-        createAndSaveResult(new DataInput()
-                .setProducer("Hornady")
-                .setUnits(Units.IMPERIAL)
-                .setVelocity("2400")
-                .setMass("160")
-                .setCaliber(".30-30 LeverEvolution"));
-
-        return entityListToDtoList(energyRepository.findAll());
+    public List<ECDto> addTestData() {
+        return dataProviderService.populateWithTestData();
     }
 }
