@@ -1,6 +1,5 @@
 package net.ckb78.EnergyCalcDemo.controller;
 
-
 import lombok.extern.slf4j.Slf4j;
 import net.ckb78.EnergyCalcDemo.service.EcService;
 import net.ckb78.EnergyCalcDemo.service.Units;

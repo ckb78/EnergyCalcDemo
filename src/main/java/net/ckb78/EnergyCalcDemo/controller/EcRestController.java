@@ -38,7 +38,6 @@ public class EcRestController {
     @PostMapping(path = "/inputdata", consumes = "application/json", produces = "application/json")
     public EcDto addData(@RequestBody DataInput input) {
         log.info("EcRestController - POST /inputdata " + "\n " + input.toString());
-        checkDataAvailability();
         return calcService.newCalculation(input);
     }
 
@@ -57,6 +56,6 @@ public class EcRestController {
 
     private void checkDataAvailability() {
         if (calcService.getAllEnergyData().isEmpty())
-            populateWithTestData();
+            calcService.addTestData();
     }
 }
