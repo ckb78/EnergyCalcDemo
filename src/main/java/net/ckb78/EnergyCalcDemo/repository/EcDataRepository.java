@@ -8,5 +8,7 @@ import java.util.List;
 @Repository
 public interface EcDataRepository extends JpaRepository<EcDataEntity, Long> {
 
+    // TODO: Make derived queries used by Rest Controller return optionals!
+
     List<EcDataEntity> findAllByProducer(String producer);
 }
