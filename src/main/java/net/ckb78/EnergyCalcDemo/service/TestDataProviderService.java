@@ -12,7 +12,7 @@ import java.util.List;
 public class TestDataProviderService {
 
     @Autowired
-    private EcService calcService;
+    EcService calcService;
 
     @Autowired
     EcDataRepository energyRepository;
