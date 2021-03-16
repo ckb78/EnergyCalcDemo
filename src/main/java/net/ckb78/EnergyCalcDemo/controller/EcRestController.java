@@ -39,7 +39,7 @@ public class EcRestController {
     public EcDto addData(@RequestBody DataInput input) {
         log.info("EcRestController - POST /inputdata " + "\n " + input.toString());
         checkDataAvailability();
-        return calcService.createAndSaveResult(input);
+        return calcService.newCalculation(input);
     }
 
     @DeleteMapping("/deletebyid/{id}")

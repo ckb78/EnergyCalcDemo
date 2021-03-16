@@ -37,7 +37,7 @@
 <div th:unless="${#lists.isEmpty(results)}" class="latest" th:text="'Latest calculations:'"></div>
 <ul th:each="result, resultStat : ${results}">
 
-    <div><b><span th:text="${result.humanReadableTimeStamp}"></span></b><span th:if="${resultStat.first && resultStat.size > 1}"> ➕</span></div>
+    <div><b><span th:text="${result.humanReadableTimeStamp}"></span></b><span th:if="${resultStat.first && resultStat.size > 1}"><i> (latest calculation)</i></span></div>
     <br>
     <div th:text="${result.units == T(net.ckb78.EnergyCalcDemo.service.Units).IMPERIAL ? ' Imperial' : ' Metric'} + ' units were used in this calculation.'"></div>
     <br>

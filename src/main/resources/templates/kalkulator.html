@@ -37,7 +37,7 @@
 <div th:unless="${#lists.isEmpty(results)}" class="latest" th:text="'Siste utregninger:'"></div>
 <ul th:each="result: ${results}">
     <b>
-        <div><b><span th:text="${result.humanReadableTimeStamp}"></span></b><span th:if="${resultStat.first && resultStat.size > 1}"> ➕</span></div>
+        <div><b><span th:text="${result.humanReadableTimeStamp}"></span></b><span th:if="${resultStat.first && resultStat.size > 1}"> (siste utregning)</span></div>
     </b>
     <br>
     <div th:text="${result.units == T(net.ckb78.EnergyCalcDemo.service.Units).IMPERIAL ? ' Amerikanske' : ' Metriske'} + ' enheter ble brukt i denne utregningen.'"></div>

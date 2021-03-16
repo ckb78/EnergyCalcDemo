@@ -35,7 +35,7 @@ public class EcWebController {
         log.info("EcWebController - POST: \"/\", {}", input.toString());
         validInput = calcService.validateInput(input);
         if (validInput) {
-            calcService.createAndSaveResult(input);
+            calcService.newCalculation(input);
         }
         model.addAttribute("validInput", validInput);
         model.addAttribute("results", calcService.getLatestFive());
@@ -57,7 +57,7 @@ public class EcWebController {
         log.info("EcWebController - POST: \"/no\", {}", input.toString());
         validInput = calcService.validateInput(input);
         if (validInput) {
-            calcService.createAndSaveResult(input);
+            calcService.newCalculation(input);
         }
         model.addAttribute("validInput", validInput);
         model.addAttribute("results", calcService.getLatestFive());

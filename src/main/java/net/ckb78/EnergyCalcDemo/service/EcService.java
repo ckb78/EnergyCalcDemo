@@ -18,13 +18,12 @@ import java.util.List;
 @Slf4j
 @Service
 public class EcService {
-
     private final static int IMPERIAL_DIMENSIONAL_CONSTANT = 450240;
     private final static int METRIC_DIMENSIONAL_CONSTANT = 1000;
     private final static double JOULES_PR_FOOT_POUND = 1.35581795;
     private final static double FOOT_POUNDS_PR_JOULE = 0.737562149;
 
-    private static Long calcCounter = 0L;
+    private static Long calculationCounter = 0L;
     private static final List<EcResult> results = new ArrayList<>();
 
     DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy, HH:mm:ss");
@@ -35,38 +34,14 @@ public class EcService {
     @Autowired
     TestDataProviderService dataProviderService;
 
-    public EcDto createAndSaveResult(DataInput input) {
-        double bulletWeight, muzzleVelocity;
-
-        try {
-            bulletWeight = Double.parseDouble(input.getMass());
-            muzzleVelocity = Double.parseDouble(input.getVelocity());
-        } catch (Exception e) {
-            bulletWeight = 0;
-            muzzleVelocity = 0;
-        }
-
-        EcResult result = new EcResult()
-                .setProducer(input.getProducer())
-                .setUnits(input.getUnits())
-                .setMass(bulletWeight)
-                .setVelocity(muzzleVelocity)
-                .setRound(!(input.getRound().isEmpty()) ? input.getRound() : "-")
-                .setCalculatedTimeStamp(LocalDateTime.now());
-        calculateAndSetEnergies(result);
-        setId(result);
-        result.setHumanReadableTimeStamp(result.getCalculatedTimeStamp().format(timeFormatter));
+    public EcDto newCalculation(DataInput input) {
+        EcResult result = newCalculationResult(input);
 
         log.info("EcService - Completed muzzle energy calculation:\n {} ", result.toString());
         addResult(result);
         saveResult(result);
 
         return entityToDto(energyRepository.getOne(result.getId()));
-    }
-
-    private void setId(EcResult result) {
-        calcCounter++;
-        result.setId(calcCounter + 100);
     }
 
     public List<EcResult> getLatestFive() {
@@ -93,24 +68,6 @@ public class EcService {
         }
     }
 
-    private void calculateAndSetEnergies(EcResult m) {
-        m.setEnergy((m.getUnits() == Units.IMPERIAL) ? getEnergyInFtLbs(m) : getEnergyInJoule(m));
-        m.setAltEnergy(ConvertToAltEnergy(m));
-    }
-
-    private double getEnergyInFtLbs(EcResult m) {
-        return roundDouble(m.getVelocity() * m.getVelocity() * m.getMass() / IMPERIAL_DIMENSIONAL_CONSTANT);
-    }
-
-    private double getEnergyInJoule(EcResult m) {
-        return roundDouble((0.5 * m.getMass() * (m.getVelocity() * m.getVelocity())) / METRIC_DIMENSIONAL_CONSTANT);
-    }
-
-    private double ConvertToAltEnergy(EcResult m) {
-        return (m.getUnits() == Units.IMPERIAL) ? roundDouble(m.getEnergy() * JOULES_PR_FOOT_POUND)
-                : roundDouble(m.getEnergy() * FOOT_POUNDS_PR_JOULE);
-    }
-
     public boolean validateInput(DataInput input) {
         checkAndCorrectDecimalDelimiter(input);
         try {
@@ -125,12 +82,12 @@ public class EcService {
 
     private void checkAndCorrectDecimalDelimiter(DataInput input) {
         if (input.getVelocity().contains(",") || input.getMass().contains(",")) {
-            input.setVelocity(fixDecimalDelimiter(input.getVelocity()));
-            input.setMass(fixDecimalDelimiter(input.getMass()));
+            input.setVelocity(setDecimalDelimiterToPeriod(input.getVelocity()));
+            input.setMass(setDecimalDelimiterToPeriod(input.getMass()));
         }
     }
 
-    private String fixDecimalDelimiter(String s) {
+    private String setDecimalDelimiterToPeriod(String s) {
         if (s.contains(",")) {
             int i = s.indexOf(",");
             StringBuilder c = new StringBuilder(s);
@@ -138,6 +95,52 @@ public class EcService {
             return c.toString();
         }
         return s;
+    }
+
+    private EcResult newCalculationResult(DataInput input) {
+        double bulletWeight, muzzleVelocity;
+        try {
+            bulletWeight = Double.parseDouble(input.getMass());
+            muzzleVelocity = Double.parseDouble(input.getVelocity());
+        } catch (Exception e) {
+            bulletWeight = 0;
+            muzzleVelocity = 0;
+        }
+
+        EcResult result = new EcResult()
+                .setProducer(input.getProducer())
+                .setUnits(input.getUnits())
+                .setMass(bulletWeight)
+                .setVelocity(muzzleVelocity)
+                .setRound(!(input.getRound().isEmpty()) ? input.getRound() : "-")
+                .setCalculatedTimeStamp(LocalDateTime.now());
+        calculateAndSetEnergies(result);
+        setId(result);
+        result.setHumanReadableTimeStamp(result.getCalculatedTimeStamp().format(timeFormatter));
+        return result;
+    }
+
+    private void calculateAndSetEnergies(EcResult m) {
+        m.setEnergy((m.getUnits() == Units.IMPERIAL) ? getEnergyInFtLbs(m) : getEnergyInJoule(m));
+        m.setAltEnergy(ConvertToAltEnergy(m));
+    }
+
+    private void setId(EcResult result) {
+        calculationCounter++;
+        result.setId(calculationCounter + 100);
+    }
+
+    private double getEnergyInFtLbs(EcResult m) {
+        return roundDouble(m.getVelocity() * m.getVelocity() * m.getMass() / IMPERIAL_DIMENSIONAL_CONSTANT);
+    }
+
+    private double getEnergyInJoule(EcResult m) {
+        return roundDouble((0.5 * m.getMass() * (m.getVelocity() * m.getVelocity())) / METRIC_DIMENSIONAL_CONSTANT);
+    }
+
+    private double ConvertToAltEnergy(EcResult m) {
+        return (m.getUnits() == Units.IMPERIAL) ? roundDouble(m.getEnergy() * JOULES_PR_FOOT_POUND)
+                : roundDouble(m.getEnergy() * FOOT_POUNDS_PR_JOULE);
     }
 
     private double roundDouble(double value) {
