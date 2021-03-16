@@ -17,27 +17,27 @@ public class EcRestController {
     @GetMapping("/getdata")
     public List<EcDto> getAllData() {
         checkDataAvailability();
-        log.info("* GET /getdata");
+        log.info("EcRestController - GET /getdata");
         return calcService.getAllEnergyData();
     }
 
     @GetMapping("/getbyid/{id}")
     public EcDto getSingleEnergyData(@PathVariable Long id) {
         checkDataAvailability();
-        log.info("* GET /getbyid/" + id);
+        log.info("EcRestController - GET /getbyid/" + id);
         return calcService.getDataById(id);
     }
 
     @GetMapping("/getbycompany/{company}")
     public List<EcDto> getSingleEnergyData(@PathVariable String company) {
         checkDataAvailability();
-        log.info("* GET /getbycompany/" + company);
+        log.info("EcRestController - GET /getbycompany/" + company);
         return calcService.getEnergyDataByCompany(company.toUpperCase());
     }
 
     @PostMapping(path = "/inputdata", consumes = "application/json", produces = "application/json")
     public EcDto addData(@RequestBody DataInput input) {
-        log.info("* POST /inputdata " + "\n " + input.toString());
+        log.info("EcRestController - POST /inputdata " + "\n " + input.toString());
         checkDataAvailability();
         return calcService.createAndSaveResult(input);
     }
@@ -45,13 +45,13 @@ public class EcRestController {
     @DeleteMapping("/deletebyid/{id}")
     public void deleteDataById(@PathVariable Long id) {
         checkDataAvailability();
-        log.info("* DELETE /deletebyid/" + id);
+        log.info("EcRestController - DELETE /deletebyid/" + id);
         calcService.deleteDataById(id);
     }
 
     @GetMapping("/populate")
     public List<EcDto> populateWithTestData() {
-        log.info("* GET /populate ");
+        log.info("EcRestController - GET /populate ");
         return calcService.addTestData();
     }
 

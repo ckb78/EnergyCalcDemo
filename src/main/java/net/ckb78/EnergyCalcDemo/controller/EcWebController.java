@@ -22,7 +22,7 @@ public class EcWebController {
 
     @GetMapping("/")
     public String GetInput(Model model, @ModelAttribute("input") DataInput input) {
-        log.info("MuzzleEnergyController - GET: \"/\"");
+        log.info("EcWebController - GET: \"/\"");
         input.setUnits(Units.IMPERIAL);
         checkAndPopulate();
         model.addAttribute("validInput", validInput);
@@ -32,7 +32,7 @@ public class EcWebController {
 
     @PostMapping("/")
     public String getResult(Model model, @ModelAttribute("input") DataInput input) {
-        log.info("MuzzleEnergyController - POST: \"/\", {}", input.toString());
+        log.info("EcWebController - POST: \"/\", {}", input.toString());
         validInput = calcService.validateInput(input);
         if (validInput) {
             calcService.createAndSaveResult(input);
@@ -44,7 +44,7 @@ public class EcWebController {
 
     @GetMapping("/no")
     public String GetInputNo(Model model, @ModelAttribute("input") DataInput input) {
-        log.info("MuzzleEnergyController - GET: \"/no\"");
+        log.info("EcWebController - GET: \"/no\"");
         input.setUnits(Units.METRIC);
         checkAndPopulate();
         model.addAttribute("validInput", validInput);
@@ -54,7 +54,7 @@ public class EcWebController {
 
     @PostMapping("/no")
     public String getResultsNo(Model model, @ModelAttribute("input") DataInput input) {
-        log.info("MuzzleEnergyController - POST: \"/no\", {}", input.toString());
+        log.info("EcWebController - POST: \"/no\", {}", input.toString());
         validInput = calcService.validateInput(input);
         if (validInput) {
             calcService.createAndSaveResult(input);

@@ -57,7 +57,7 @@ public class EcService {
         setId(result);
         result.setHumanReadableTimeStamp(result.getCalculatedTimeStamp().format(timeFormatter));
 
-        log.info("MuzzleEnergyService - Completed muzzle energy calculation:\n {} ", result.toString());
+        log.info("EcService - Completed muzzle energy calculation:\n {} ", result.toString());
         addResult(result);
         saveResult(result);
 
@@ -118,7 +118,7 @@ public class EcService {
             double v = Double.parseDouble(input.getVelocity());
             return m > 0.0 && v > 0.0;
         } catch (Exception e) {
-            log.warn("* Invalid Input Data!");
+            log.warn("EcService - Invalid Input Data!");
         }
         return false;
     }
