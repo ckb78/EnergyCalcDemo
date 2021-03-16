@@ -16,8 +16,8 @@ public class ECDto {
     private String producer;
     @JsonProperty("units")
     private Units units;
-    @JsonProperty("caliber")
-    private String caliber;
+    @JsonProperty("round")
+    private String round;
     @JsonProperty("mass")
     private double mass;
     @JsonProperty("velocity")

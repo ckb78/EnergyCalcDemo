@@ -2,7 +2,6 @@ package net.ckb78.EnergyCalcDemo.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import net.ckb78.EnergyCalcDemo.service.ECService;
-import net.ckb78.EnergyCalcDemo.service.TestDataProviderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

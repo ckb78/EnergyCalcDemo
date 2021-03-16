@@ -64,7 +64,7 @@ public class ECWebController {
         return "kalkulator";
     }
 
-    private void checkAndPopulate(){
+    private void checkAndPopulate() {
         if (calcService.getLatestFive().isEmpty()) {
             calcService.addTestData();
         }

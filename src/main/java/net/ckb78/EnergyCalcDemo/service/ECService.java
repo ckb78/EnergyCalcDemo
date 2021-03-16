@@ -2,8 +2,8 @@ package net.ckb78.EnergyCalcDemo.service;
 
 
 import lombok.extern.slf4j.Slf4j;
-import net.ckb78.EnergyCalcDemo.controller.ECDto;
 import net.ckb78.EnergyCalcDemo.controller.DataInput;
+import net.ckb78.EnergyCalcDemo.controller.ECDto;
 import net.ckb78.EnergyCalcDemo.repository.ECDataEntity;
 import net.ckb78.EnergyCalcDemo.repository.ECDataRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +51,7 @@ public class ECService {
                 .setUnits(input.getUnits())
                 .setMass(bulletWeight)
                 .setVelocity(muzzleVelocity)
-                .setCaliber(!(input.getCaliber().isEmpty()) ? input.getCaliber() : "-")
+                .setRound(!(input.getRound().isEmpty()) ? input.getRound() : "-")
                 .setCalculatedTimeStamp(LocalDateTime.now());
         calculateAndSetEnergies(result);
         setId(result);
@@ -80,12 +80,12 @@ public class ECService {
     }
 
     private void saveResult(ECResult result) {
-        if (result.getMass() != 0 && result.getVelocity() != 0){
+        if (result.getMass() != 0 && result.getVelocity() != 0) {
             energyRepository.save(new ECDataEntity()
                     .setId(result.getId())
                     .setUnits(result.getUnits())
                     .setProducer(result.getProducer().toUpperCase())
-                    .setCaliber(result.getCaliber())
+                    .setRound(result.getRound())
                     .setMass(result.getMass())
                     .setVelocity(result.getVelocity())
                     .setEnergy(result.getEnergy()))
@@ -151,6 +151,7 @@ public class ECService {
     public ECDto getEnergyDataById(Long id) {
         return entityToDto(energyRepository.getOne(id));
     }
+
     public List<ECDto> getEnergyDataByCompany(String producer) {
         return entityListToDtoList(energyRepository.findAllByProducer(producer));
     }
@@ -160,7 +161,7 @@ public class ECService {
                 .setCalculationId(entity.getId())
                 .setProducer(entity.getProducer())
                 .setUnits(entity.getUnits())
-                .setCaliber(entity.getCaliber())
+                .setRound(entity.getRound())
                 .setMass(entity.getMass())
                 .setVelocity(entity.getVelocity())
                 .setEnergy(entity.getEnergy())

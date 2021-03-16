@@ -7,7 +7,7 @@
 </head>
 
 <body>
-<div align="RIGHT">CKB78/2021 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp <b>Norsk</b> | <a href="/">English</a></div>
+<div align="RIGHT">CKB78/2021 v.0.1 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp <b>Norsk</b> | <a href="/">English</a></div>
 <h1> Enkel utgangssenergi-kalkulator</h1>
 <form action="#" th:action="@{/no}" method="post" th:object="${input}">
 
@@ -28,7 +28,7 @@
     <br/>
 
     <label>Patron:</label>
-    <input type="text" th:field="*{caliber}"/><br/><br/>
+    <input type="text" th:field="*{round}"/><br/><br/>
     <input type="submit" class="button" value="KALKULER!"/>
     <span th:unless="${validInput}"><b>Ugyldig data!</b></span>
 </form>
@@ -44,7 +44,7 @@
     <br>
     <div th:text="'Kalkulerings id........:  ' + ${result.id}"></div>
     <div th:text="'Produsent..............:  ' + ${result.producer}"></div>
-    <div th:text="'Patron.................:  ' + ${result.caliber}"></div>
+    <div th:text="'Patron.................:  ' + ${result.round}"></div>
     <br>
     <div th:text="'Hastighet .............:  ' + ${result.velocity} + ' ' + ${result.units == T(net.ckb78.EnergyCalcDemo.service.Units).IMPERIAL ? ' fot pr. sekund.' : ' meter i sekundet.'}"></div>
     <div th:text="'Masse .................:  ' + ${result.mass} + ' ' + ${result.units == T(net.ckb78.EnergyCalcDemo.service.Units).IMPERIAL ? ' grain.' : ' gram.'} "></div>

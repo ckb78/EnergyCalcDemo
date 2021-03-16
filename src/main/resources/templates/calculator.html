@@ -7,7 +7,7 @@
 </head>
 
 <body>
-<div align="RIGHT">CKB78/2021 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp <a href="/no">Norsk</a> | <b>English</b></div>
+<div align="RIGHT">CKB78/2021 v.0.1 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp <a href="/no">Norsk</a> | <b>English</b></div>
 <h1> Muzzle energy calculator demo</h1>
 <form action="#" th:action="@{/}" method="post" th:object="${input}">
     <input type="radio" class="radio" th:field="*{units}" value="IMPERIAL"/>Use imperial units <i>(feet pr. second /
@@ -28,7 +28,7 @@
     <br/>
 
     <label>Round:</label>
-    <input type="text" th:field="*{caliber}"/><br/><br/>
+    <input type="text" th:field="*{round}"/><br/><br/>
     <input type="submit" class="button" value="CALCULATE!"/>
     <span th:unless="${validInput}"><b>Invalid input data!</b></span>
 </form>
@@ -43,7 +43,7 @@
     <br>
     <div th:text="'Calculation Id.........:  ' + ${result.id}"></div>
     <div th:text="'Company................:  ' + ${result.producer}"></div>
-    <div th:text="'Round..................:  ' + ${result.caliber}"></div>
+    <div th:text="'Round..................:  ' + ${result.round}"></div>
     <br>
     <div th:text="'Velocity ..............:  ' + ${result.velocity} + ' ' + ${result.units == T(net.ckb78.EnergyCalcDemo.service.Units).IMPERIAL ? ' feet/sec.' : ' meter/sec.'}"></div>
     <div th:text="'Mass ..................:  ' + ${result.mass} + ' ' + ${result.units == T(net.ckb78.EnergyCalcDemo.service.Units).IMPERIAL ? ' grains.' : ' grams.'} "></div>

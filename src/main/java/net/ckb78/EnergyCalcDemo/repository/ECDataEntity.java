@@ -6,8 +6,6 @@ import lombok.experimental.Accessors;
 import net.ckb78.EnergyCalcDemo.service.Units;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.time.LocalDateTime;
 
@@ -20,7 +18,7 @@ public class ECDataEntity {
     private Long id;
     private String producer;
     private Units units;
-    private String caliber;
+    private String round;
     private double mass;
     private double velocity;
     private double energy;

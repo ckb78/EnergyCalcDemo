@@ -24,42 +24,42 @@ public class TestDataProviderService {
                 .setUnits(Units.IMPERIAL)
                 .setVelocity("1000")
                 .setMass("40")
-                .setCaliber(".22 LR Standard (DEMO DATA)"));
+                .setRound(".22 LR Standard (DEMO DATA)"));
 
         calcService.createAndSaveResult(new DataInput()
                 .setProducer("CCI")
                 .setUnits(Units.IMPERIAL)
                 .setVelocity("1250")
                 .setMass("40")
-                .setCaliber(".22 LR Mini Mag (DEMO DATA)"));
+                .setRound(".22 LR Mini Mag (DEMO DATA)"));
 
         calcService.createAndSaveResult(new DataInput()
                 .setProducer("CCI")
                 .setUnits(Units.IMPERIAL)
                 .setVelocity("1630")
                 .setMass("32")
-                .setCaliber(".22 LR Stinger (DEMO DATA)"));
+                .setRound(".22 LR Stinger (DEMO DATA)"));
 
         calcService.createAndSaveResult(new DataInput()
                 .setProducer("Hornady")
                 .setUnits(Units.IMPERIAL)
                 .setVelocity("2400")
                 .setMass("160")
-                .setCaliber(".30-30 LeverEvolution (DEMO DATA)"));
+                .setRound(".30-30 LeverEvolution (DEMO DATA)"));
 
         calcService.createAndSaveResult(new DataInput()
                 .setProducer("Elay")
                 .setUnits(Units.IMPERIAL)
                 .setVelocity("980")
                 .setMass("40")
-                .setCaliber(".22 LR Subsonic (DEMO DATA)"));
+                .setRound(".22 LR Subsonic (DEMO DATA)"));
 
         calcService.createAndSaveResult(new DataInput()
                 .setProducer("SK")
                 .setUnits(Units.IMPERIAL)
                 .setVelocity("1073")
                 .setMass("40")
-                .setCaliber(".22 LR Rifle Match (DEMO DATA)"));
+                .setRound(".22 LR Rifle Match (DEMO DATA)"));
 
         return calcService.entityListToDtoList(energyRepository.findAll());
     }

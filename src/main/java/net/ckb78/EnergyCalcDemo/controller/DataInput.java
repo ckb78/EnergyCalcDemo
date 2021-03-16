@@ -9,7 +9,7 @@ import net.ckb78.EnergyCalcDemo.service.Units;
 public class DataInput {
 
     private String producer;
-    private String caliber;
+    private String round;
     private Units units;
     private String mass;
     private String velocity;
@@ -17,7 +17,8 @@ public class DataInput {
     @Override
     public String toString() {
 
-        return "Caliber: " + caliber + ", "
+        return "Producer: " + producer + ", "
+                + "Round: " + round + ", "
                 + "Velocity: " + velocity + ", "
                 + "mass: " + mass + ", "
                 + "units: " + units + ".";
