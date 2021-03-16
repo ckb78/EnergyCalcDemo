@@ -27,7 +27,7 @@
     <input type="text" th:field="*{producer}"/>
     <br/>
 
-    <label>Patronbeskrivelse:</label>
+    <label>Patronbetegnelse:</label>
     <input type="text" th:field="*{round}"/><br/><br/>
     <input type="submit" class="button" value="KALKULER!"/>
     <span th:unless="${validInput}"><b>Ugyldig data!</b></span>
@@ -36,15 +36,14 @@
 
 <div th:unless="${#lists.isEmpty(results)}" class="latest" th:text="'Siste utregninger:'"></div>
 <ul th:each="result: ${results}">
-    <b>
-        <div><b><span th:text="${result.humanReadableTimeStamp}"></span></b><span th:if="${resultStat.first && resultStat.size > 1}"> (siste utregning)</span></div>
-    </b>
+        <div><b><span th:text="${result.humanReadableTimeStamp}"></span></b><span th:if="${resultStat.first && resultStat.size > 1}"> <i>(siste utregning)</i></span></div>
+
     <br>
     <div th:text="${result.units == T(net.ckb78.EnergyCalcDemo.service.Units).IMPERIAL ? ' Amerikanske' : ' Metriske'} + ' enheter ble brukt i denne utregningen.'"></div>
     <br>
     <div th:text="'Kalkulerings id........:  ' + ${result.id}"></div>
     <div th:text="'Produsent..............:  ' + ${result.producer}"></div>
-    <div th:text="'Patronbeskrivelse......:  ' + ${result.round}"></div>
+    <div th:text="'Patronbetegnelse.......:  ' + ${result.round}"></div>
     <br>
     <div th:text="'Hastighet .............:  ' + ${result.velocity} + ' ' + ${result.units == T(net.ckb78.EnergyCalcDemo.service.Units).IMPERIAL ? ' fot pr. sekund.' : ' meter i sekundet.'}"></div>
     <div th:text="'Masse .................:  ' + ${result.mass} + ' ' + ${result.units == T(net.ckb78.EnergyCalcDemo.service.Units).IMPERIAL ? ' grain.' : ' gram.'} "></div>
