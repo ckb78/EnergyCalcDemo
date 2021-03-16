@@ -27,7 +27,7 @@
     <input type="text" th:field="*{producer}"/>
     <br/>
 
-    <label>Patron:</label>
+    <label>Patronbeskrivelse:</label>
     <input type="text" th:field="*{round}"/><br/><br/>
     <input type="submit" class="button" value="KALKULER!"/>
     <span th:unless="${validInput}"><b>Ugyldig data!</b></span>
@@ -44,7 +44,7 @@
     <br>
     <div th:text="'Kalkulerings id........:  ' + ${result.id}"></div>
     <div th:text="'Produsent..............:  ' + ${result.producer}"></div>
-    <div th:text="'Patron.................:  ' + ${result.round}"></div>
+    <div th:text="'Patronbeskrivelse......:  ' + ${result.round}"></div>
     <br>
     <div th:text="'Hastighet .............:  ' + ${result.velocity} + ' ' + ${result.units == T(net.ckb78.EnergyCalcDemo.service.Units).IMPERIAL ? ' fot pr. sekund.' : ' meter i sekundet.'}"></div>
     <div th:text="'Masse .................:  ' + ${result.mass} + ' ' + ${result.units == T(net.ckb78.EnergyCalcDemo.service.Units).IMPERIAL ? ' grain.' : ' gram.'} "></div>

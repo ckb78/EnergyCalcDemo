@@ -27,7 +27,7 @@
     <input type="text" th:field="*{producer}"/>
     <br/>
 
-    <label>Round:</label>
+    <label>Round description:</label>
     <input type="text" th:field="*{round}"/><br/><br/>
     <input type="submit" class="button" value="CALCULATE!"/>
     <span th:unless="${validInput}"><b>Invalid input data!</b></span>
@@ -43,7 +43,7 @@
     <br>
     <div th:text="'Calculation Id.........:  ' + ${result.id}"></div>
     <div th:text="'Company................:  ' + ${result.producer}"></div>
-    <div th:text="'Round..................:  ' + ${result.round}"></div>
+    <div th:text="'Round description......:  ' + ${result.round}"></div>
     <br>
     <div th:text="'Velocity ..............:  ' + ${result.velocity} + ' ' + ${result.units == T(net.ckb78.EnergyCalcDemo.service.Units).IMPERIAL ? ' feet/sec.' : ' meter/sec.'}"></div>
     <div th:text="'Mass ..................:  ' + ${result.mass} + ' ' + ${result.units == T(net.ckb78.EnergyCalcDemo.service.Units).IMPERIAL ? ' grains.' : ' grams.'} "></div>
