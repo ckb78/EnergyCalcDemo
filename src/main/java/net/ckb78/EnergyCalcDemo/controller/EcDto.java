@@ -1,26 +1,29 @@
-package net.ckb78.EnergyCalcDemo.repository;
+package net.ckb78.EnergyCalcDemo.controller;
 
-
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import net.ckb78.EnergyCalcDemo.service.Units;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
 import java.time.LocalDateTime;
 
 @Data
 @Accessors(chain = true)
-@Entity
-public class ECDataEntity {
-
-    @Id
-    private Long id;
+public class EcDto {
+    @JsonProperty("id")
+    private Long calculationId;
+    @JsonProperty("producer")
     private String producer;
+    @JsonProperty("units")
     private Units units;
+    @JsonProperty("round")
     private String round;
+    @JsonProperty("mass")
     private double mass;
+    @JsonProperty("velocity")
     private double velocity;
+    @JsonProperty("energy")
     private double energy;
+    @JsonProperty("calculated")
     private LocalDateTime calculatedTimeStamp;
 }

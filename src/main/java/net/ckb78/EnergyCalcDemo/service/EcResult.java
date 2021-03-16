@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Data
 @Accessors(chain = true)
-public class ECResult {
+public class EcResult {
 
     private Long id;
     private String producer;

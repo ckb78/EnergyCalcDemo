@@ -1,8 +1,8 @@
 package net.ckb78.EnergyCalcDemo.service;
 
 import net.ckb78.EnergyCalcDemo.controller.DataInput;
-import net.ckb78.EnergyCalcDemo.controller.ECDto;
-import net.ckb78.EnergyCalcDemo.repository.ECDataRepository;
+import net.ckb78.EnergyCalcDemo.controller.EcDto;
+import net.ckb78.EnergyCalcDemo.repository.EcDataRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -12,12 +12,12 @@ import java.util.List;
 public class TestDataProviderService {
 
     @Autowired
-    private ECService calcService;
+    private EcService calcService;
 
     @Autowired
-    ECDataRepository energyRepository;
+    EcDataRepository energyRepository;
 
-    List<ECDto> populateWithTestData() {
+    List<EcDto> populateWithTestData() {
 
         calcService.createAndSaveResult(new DataInput()
                 .setProducer("CCI")

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ECDataRepository extends JpaRepository<ECDataEntity, Long> {
+public interface EcDataRepository extends JpaRepository<EcDataEntity, Long> {
 
-    List<ECDataEntity> findAllByProducer(String producer);
+    List<EcDataEntity> findAllByProducer(String producer);
 }
