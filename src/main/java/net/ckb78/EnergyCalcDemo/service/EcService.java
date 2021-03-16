@@ -68,6 +68,17 @@ public class EcService {
         }
     }
 
+    public void deleteDataById(Long id) {
+        energyRepository.deleteById(id);
+    }
+    public List<EcDto> getAllEnergyData() {
+        return entityListToDtoList(energyRepository.findAll());
+    }
+
+    public EcDto getDataById(Long id) {
+        return entityToDto(energyRepository.getOne(id));
+    }
+
     public boolean validateInput(DataInput input) {
         checkAndCorrectDecimalDelimiter(input);
         try {
@@ -147,13 +158,7 @@ public class EcService {
         return Math.round(value * 100.00) / 100.00;
     }
 
-    public List<EcDto> getAllEnergyData() {
-        return entityListToDtoList(energyRepository.findAll());
-    }
 
-    public EcDto getDataById(Long id) {
-        return entityToDto(energyRepository.getOne(id));
-    }
 
     public List<EcDto> getEnergyDataByCompany(String producer) {
         return entityListToDtoList(energyRepository.findAllByProducer(producer));
@@ -181,9 +186,5 @@ public class EcService {
 
     public List<EcDto> addTestData() {
         return dataProviderService.populateWithTestData();
-    }
-
-    public void deleteDataById(Long id) {
-        energyRepository.deleteById(id);
     }
 }
